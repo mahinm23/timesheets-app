@@ -2,21 +2,27 @@ import React from "react";
 
 const LoginForm = () => {
   return (
-    <form className="login-form">
-      <h2>Employee Login</h2>
-      <div>
-        <label htmlFor="employeeId">Employee ID</label>
-        <input type="text" id="employeeId" placeholder="Enter your ID" />
-      </div>
-      <div>
-        <label htmlFor="password">Password</label>
-        <input type="password" id="password" placeholder="Enter your password" />
-      </div>
-      <button type="submit">Login</button>
-      <p>
-        <a href="/forgot-password">Forgot Password?</a>
-      </p>
-    </form>
+      <form className="p-4 border rounded shadow bg-white align-middle">
+        <h2 className="mb-4 text-center">Login</h2>
+
+        <div className="mb-3">
+          <label htmlFor="InputID" className="form-label">Employee ID</label>
+          <input type="text" className="form-control" id="InputID" aria-describedby="idHelp" />
+        </div>
+
+        <div className="mb-3">
+          <label htmlFor="InputPassword" className="form-label">Password</label>
+          <input type="password" className="form-control" id="InputPassword" />
+        </div>
+
+        <div className="d-grid">
+          <button type="submit" className="btn btn-primary">Login</button>
+        </div>
+
+        <p className="text-center mt-3 mb-0">
+          <a href="/forgot-password">Forgot Password?</a>
+        </p>
+      </form>
   );
 };
 
