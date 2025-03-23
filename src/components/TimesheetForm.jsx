@@ -7,7 +7,6 @@ const TimesheetForm = () => {
 
   return (
     <form className="p-4 border rounded shadow bg-white" style={{ maxWidth: "600px", margin: "0 auto" }}>
-      <h2 className="mb-4 text-center">Submit Timesheet</h2>
 
       {/* Status placeholder */}
       <div className="mb-3">
@@ -17,14 +16,16 @@ const TimesheetForm = () => {
       </div>
 
       {/* Auto-filled fields */}
-      <div className="mb-3">
-        <label className="form-label">Employee ID</label>
-        <input type="text" className="form-control" value={employeeId} disabled />
-      </div>
+      <div className="row">
+        <div className='col'>
+          <label className="form-label">Employee ID</label>
+          <input type="text" className="form-control" value={employeeId} disabled />
+        </div>
 
-      <div className="mb-3">
-        <label className="form-label">Employee Name</label>
-        <input type="text" className="form-control" value={employeeName} disabled />
+        <div className="col">
+          <label className="form-label">Employee Name</label>
+          <input type="text" className="form-control" value={employeeName} disabled />
+        </div>
       </div>
 
       {/* Date and time */}
@@ -33,14 +34,16 @@ const TimesheetForm = () => {
         <input type="date" className="form-control" />
       </div>
 
-      <div className="mb-3">
-        <label className="form-label">Start Time</label>
-        <input type="time" className="form-control" />
-      </div>
+      <div className="row">
+        <div className="col">
+          <label className="form-label">Start Time</label>
+          <input type="time" className="form-control" />
+        </div>        
 
-      <div className="mb-3">
-        <label className="form-label">End Time</label>
-        <input type="time" className="form-control" />
+        <div className="col">
+          <label className="form-label">End Time</label>
+          <input type="time" className="form-control" />
+        </div>
       </div>
 
       <div className="mb-3">
