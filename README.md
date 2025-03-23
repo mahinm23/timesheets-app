@@ -1,12 +1,34 @@
-# React + Vite
+# Timesheets App
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+This is a React project built with Vite. Follow the instructions below to set up and run the project locally.
 
-Currently, two official plugins are available:
+## Prerequisites
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+Before you begin, ensure you have the following installed on your system:
 
-## Expanding the ESLint configuration
+- [Node.js](https://nodejs.org/) (version 16 or higher recommended)
+- [npm](https://www.npmjs.com/) (comes with Node.js)
 
-If you are developing a production application, we recommend using TypeScript and enable type-aware lint rules. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+## Getting Started
+
+1. **Clone the Repository**:
+   Clone this repository to your local machine using the following command:
+   ```bash
+   git clone <repository-url>
+
+2. **Navigate to the Project Directory: Change into the project directory**:
+    cd timesheets-app
+
+3. **Install Dependencies: Install the required dependencies using npm**:
+    npm install
+
+4. **Run the Development Server: Start the development server:**
+    npm run dev
+
+5. **Open the Application: Open your browser and navigate to:**
+    http://localhost:5173
+
+    The application should now be running.
+
+Troubleshooting
+If you encounter any issues, ensure that all dependencies are installed correctly and that your Node.js version is compatible. Check the browser console or terminal for error messages.
