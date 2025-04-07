@@ -1,5 +1,3 @@
-// File: src/components/LoginForm.jsx
-
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
@@ -11,7 +9,7 @@ const LoginForm = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    // Example role-based credential check
+    // Dummy authentication 
     if (employeeID === "consultant" && password === "consult123") {
       navigate("/consultant-dashboard");
     } else if (employeeID === "manager" && password === "manager123") {
