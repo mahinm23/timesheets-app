@@ -45,3 +45,20 @@ CREATE TABLE rejectedTimesheet(
 INSERT INTO Employee (name, email, password, role) VALUES
     ('Alice Smith', 'alice@fdm.com', 'hashedpassword1', 'Consultant'),
     ('Bob Manager', 'bob@fdm.com', 'hashedpassword2', 'Manager');
+
+
+/* Server and test stuff - robert */
+/*
+CREATE DATABASE timesheet_app;
+-- Use database as target for sql commands
+USE timesheet_app;
+
+-- Test Make Timesheet table
+CREATE TABLE IF NOT EXISTS Timesheet (
+        timesheet_id INT AUTO_INCREMENT PRIMARY KEY,
+        employee_id INT NOT NULL,
+        date DATE NOT NULL,
+        hours_worked INT NOT NULL
+        );
+
+*/ 

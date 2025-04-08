@@ -18,6 +18,9 @@ function App() {
           {/* Login Route */}
           <Route path="/" element={<LoginPage />} />
 
+          {/* Route for Test Page, robert */}
+          <Route path="/TestPage" element={<SubmitTimesheetTest />} />
+
           {/* Timesheet Page */}
           <Route path="/submit-timesheet" element={<SubmitTimesheet />} />
 
