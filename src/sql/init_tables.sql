@@ -4,7 +4,7 @@ CREATE DATABASE TimeSheetsApp;
 
 -- Table: Employee
 CREATE TABLE Employee (
-    employee_id SERIAL PRIMARY KEY,
+    employeeId SERIAL PRIMARY KEY,
     name TEXT NOT NULL,
     email TEXT NOT NULL,
     password TEXT NOT NULL,
@@ -12,24 +12,25 @@ CREATE TABLE Employee (
 );
 
 -- Table: Timesheet
-CREATE TABLE Timesheet (
-    timesheet_id SERIAL PRIMARY KEY,
-    employee_id INT REFERENCES Employee(employee_id) ON DELETE CASCADE,
-    period_start DATE NOT NULL,
-    period_end DATE NOT NULL,
+CREATE TABLE Timesheet(
+    timeSheetId SERIAL PRIMARY KEY,
     status TEXT CHECK (status IN ('Draft', 'Submitted', 'Approved', 'Rejected')),
+    weekStarting DATE NOT NULL,
+    weekEnding DATE NOT NULL,
+    createrId INT REFERENCES Employee(employeeId),
     submitted_at TIMESTAMP
 );
 
--- Table: TimeEntry
-CREATE TABLE TimeEntry (
-    entry_id SERIAL PRIMARY KEY,
-    timesheet_id INT REFERENCES Timesheet(timesheet_id) ON DELETE CASCADE,
-    work_date DATE NOT NULL,
-    hours NUMERIC(4, 2) CHECK (hours >= 0 AND hours <= 24),
-    project TEXT,
-    notes TEXT
+CREATE TABLE rejectedTimesheet(
+    id INT PRIMARY KEY,
+    timeSheetId INT,
+    reason TEXT,
+    rejected_on DATE,
+    reviewer_id INT,
+    FOREIGN KEY (timeSheetId) REFERENCES timeSheet(timeSheetId),
+    FOREIGN KEY (reviewer_id) REFERENCES Employee(employeeId)
 );
+
 
 # -- Table: Notification (optional, for Observer pattern simulation)
 # CREATE TABLE Notification (
