@@ -2,7 +2,7 @@
 
 -- Create database, robert
 CREATE DATABASE timesheet_app;
--- Use database as target for sql commands
+-- Use database as target for sql commands, robert
 USE timesheet_app;
 
 
@@ -17,6 +17,7 @@ CREATE TABLE Employee (
 );
 
 -- Table: Timesheet
+/* Commented out to test Timesheet table, see below - robert */
 /* CREATE TABLE Timesheet (
     timesheet_id SERIAL PRIMARY KEY,
     employee_id INT REFERENCES Employee(employee_id) ON DELETE CASCADE,
@@ -51,7 +52,7 @@ INSERT INTO Employee (name, email, password, role) VALUES
     ('Alice Smith', 'alice@fdm.com', 'hashedpassword1', 'Consultant'),
     ('Bob Manager', 'bob@fdm.com', 'hashedpassword2', 'Manager');
 
--- Test Make Timesheet table
+-- Test Make Timesheet table - robert
 CREATE TABLE IF NOT EXISTS Timesheet (
         timesheet_id INT AUTO_INCREMENT PRIMARY KEY,
         employee_id INT NOT NULL,
