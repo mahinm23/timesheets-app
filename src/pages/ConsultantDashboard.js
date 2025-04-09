@@ -1,107 +1,93 @@
-import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
-// import "./ConsultantDashboard.css";
+import React, { useState, useEffect } from 'react';
 
 const ConsultantDashboard = () => {
-  const navigate = useNavigate();
-  // Sample data for rejected timesheets
-  const [rejectedTimesheets, setRejectedTimesheets] = useState([
-    {
-      timeSheetId: 1,
-      weekEnding: "2025-03-28",
-      rejectedOn: "2025-04-02",
-      reason: "Missing project codes for Tuesday entries",
-      reviewer: "Sarah Johnson"
-    },
-    {
-      id: 2,
-      weekEnding: "2025-03-21",
-      rejectedOn: "2025-03-26",
-      reason: "Exceeded maximum hours for Project Alpha",
-      reviewer: "Michael Chen"
+  const [employeeId, setEmployeeId] = useState('');
+  const [periodStart, setPeriodStart] = useState('');
+  const [periodEnd, setPeriodEnd] = useState('');
+  const [status, setStatus] = useState('Draft');
+  const [message, setMessage] = useState('');
+
+  useEffect(() => {
+    const storedEmployeeId = localStorage.getItem('employeeId');
+    if (storedEmployeeId) {
+      setEmployeeId(storedEmployeeId);
+    } else {
+      setMessage('user not login, please login');
     }
-  ]);
+  }, []);
 
-  // Navigation to timesheet pages
-  const navigateToSubmitTimesheet = () => {
-    navigate("/submit-timesheet");
-  };
+  const handleSubmit = async (event) => {
+    event.preventDefault();
 
-  const navigateToEditTimesheet = (id) => {
-    navigate(`/edit-timesheet/${id}`);
+    // 如果没有登录，不能提交
+    if (!employeeId) {
+      setMessage('user not login, please login');
+      return;
+    }
+
+    const timesheetData = {
+      employeeId,
+      periodStart,
+      periodEnd,
+      status,
+    };
+
+    try {
+      const response = await fetch('http://localhost:3000/submit-timesheet', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(timesheetData),
+      });
+
+      const result = await response.json();
+
+      if (result.success) {
+        setMessage('submit successful');
+      } else {
+        setMessage(result.message);
+      }
+    } catch (error) {
+      setMessage('fail to submit, try again later');
+    }
   };
 
   return (
-    <div className="container py-5">
-      <div className="row mb-4">
-        <div className="col">
-          <div className="dashboard-header">
-            <h1>Welcome, Consultant</h1>
-            <p>Manage your timesheets and project billing</p>
+      <div>
+        <h2>Submit dashboard</h2>
+        <form onSubmit={handleSubmit}>
+            <label>start date:</label>
+            <input
+                type="date"
+                value={periodStart}
+                onChange={(e) => setPeriodStart(e.target.value)}
+                required
+            />
+          <div>
+            <label>end date:</label>
+            <input
+                type="date"
+                value={periodEnd}
+                onChange={(e) => setPeriodEnd(e.target.value)}
+                required
+            />
           </div>
-        </div>
+          <div>
+            <label>status:</label>
+            <select value={status} onChange={(e) => setStatus(e.target.value)} required>
+              <option value="Draft">Draft</option>
+              <option value="Submitted">Submitted</option>
+              <option value="Approved">Approved</option>
+              <option value="Rejected">Rejected</option>
+            </select>
+          </div>
+          <div>
+            <button type="submit">Submit Timesheet</button>
+          </div>
+        </form>
+        {message && <p>{message}</p>}
       </div>
-
-      <div className="row">
-        {/* Submit Timesheet Card */}
-        <div className="col-md-6 mb-4">
-          <div className="dashboard-card submit-card">
-            <div className="icon-container">
-              <div className="icon-circle">
-                <i className="bi bi-calendar-plus"></i>
-              </div>
-            </div>
-            <h2>Submit Timesheet</h2>
-            <p className="card-description">Create and submit your weekly timesheet for client projects and internal work</p>
-            <div className="action-button">
-              <button 
-                className="btn btn-primary w-100" 
-                onClick={navigateToSubmitTimesheet}>
-                New Timesheet
-              </button>
-            </div>
-          </div>
-        </div>
-
-        {/* Rejected Timesheets Card */}
-        <div className="col-md-6 mb-4">
-          <div className="dashboard-card">
-            <div className="card-header-with-badge">
-              <h2>Rejected Timesheets</h2>
-              {rejectedTimesheets.length > 0 && (
-                <span className="badge rounded-pill">{rejectedTimesheets.length}</span>
-              )}
-            </div>
-            
-            {rejectedTimesheets.length > 0 ? (
-              <div className="timesheet-list">
-                {rejectedTimesheets.map(timesheet => (
-                  <div key={timesheet.id} className="timesheet-item">
-                    <div className="timesheet-content">
-                      <h5 className="timesheet-date">Week Ending: {timesheet.weekEnding}</h5>
-                      <p className="rejection-reason">{timesheet.reason}</p>
-                      <p className="rejection-meta">
-                        Rejected by {timesheet.reviewer} on {timesheet.rejectedOn}
-                      </p>
-                    </div>
-                    <button 
-                      className="btn btn-outline-primary" 
-                      onClick={() => navigateToEditTimesheet(timesheet.id)}>
-                      Review & Fix
-                    </button>
-                  </div>
-                ))}
-              </div>
-            ) : (
-              <div className="empty-state">
-                <i className="bi bi-check-circle"></i>
-                <p>No rejected timesheets to display</p>
-              </div>
-            )}
-          </div>
-        </div>
-      </div>
-    </div>
   );
 };
 
