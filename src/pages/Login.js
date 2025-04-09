@@ -33,8 +33,6 @@ const Login = () => {
                     navigate('/consultant-dashboard');
                 } else if (result.role === 'Manager') {
                     navigate('/manager-dashboard');
-                } else if (result.role === 'Finance') {
-                    navigate('/finance-dashboard');
                 } else if (result.role === 'Executive'){
                     navigate('/Executive-dashboard');
                 }
