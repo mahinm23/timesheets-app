@@ -5,8 +5,8 @@ const Register = () => {
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    const [role, setRole] = useState('Consultant'); // 默认角色为 Consultant
-    const [message, setMessage] = useState(''); // 用于显示注册信息
+    const [role, setRole] = useState('Consultant');
+    const [message, setMessage] = useState('');
 
     const handleRegister = async (event) => {
         event.preventDefault();
@@ -32,10 +32,9 @@ const Register = () => {
             if (result.success) {
                 setMessage('registered successfully');
             } else {
-                setMessage(result.message); // 显示错误消息，如邮箱已注册
+                setMessage(result.message);
             }
         } catch (error) {
-            // console.error('注册时出现错误:', error);
             setMessage('fail to register');
         }
     };

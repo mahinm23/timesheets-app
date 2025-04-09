@@ -29,7 +29,6 @@ const Login = () => {
 
             if (result.success) {
                 setMessage('log in successful！');
-                // 根据 role 跳转到不同的页面
                 if (result.role === 'Consultant') {
                     navigate('/consultant-dashboard');
                 } else if (result.role === 'Manager') {
