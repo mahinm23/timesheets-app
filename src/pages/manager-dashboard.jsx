@@ -44,7 +44,7 @@ const ManagerDashboard = () => {
         <div className="col-md-12 mb-4">
           <div className="dashboard-card">
             <div className="card-header-with-badge">
-              <h2>Pending Timesheets to review</h2>
+              <h2>Pending Timesheets</h2>
               {pendingTimesheets.length > 0 && (
                 <span className="badge rounded-pill">{pendingTimesheets.length}</span>
               )}

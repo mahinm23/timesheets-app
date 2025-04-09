@@ -36,7 +36,7 @@ const Login = () => {
                 } else if (result.role === 'Finance') {
                     navigate('/finance-dashboard');
                 } else if (result.role === 'Executive'){
-                    navigate('/Executive-dashboard');
+                    navigate('/executive-dashboard');
                 }
             } else {
                 setMessage(result.message);
