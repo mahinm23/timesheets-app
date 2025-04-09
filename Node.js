@@ -60,7 +60,11 @@ app.post('/login', async (req, res) => {
             const user = results[0];
 
             if (password === user.password) {
-                return res.status(200).json({ success: true, message: 'login successful' });
+                return res.status(200).json({
+                    success: true,
+                    message: 'login successful',
+                    role: user.role,
+                });
             } else {
                 return res.status(400).json({ success: false, message: 'name or password error' });
             }

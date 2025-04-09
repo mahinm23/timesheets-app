@@ -29,7 +29,16 @@ const Login = () => {
 
             if (result.success) {
                 setMessage('log in successful！');
-                // navigate('/dashboard');
+                // 根据 role 跳转到不同的页面
+                if (result.role === 'Consultant') {
+                    navigate('/consultant-dashboard');
+                } else if (result.role === 'Manager') {
+                    navigate('/manager-dashboard');
+                } else if (result.role === 'Finance') {
+                    navigate('/finance-dashboard');
+                } else if (result.role === 'Executive'){
+                    navigate('/Executive-dashboard');
+                }
             } else {
                 setMessage(result.message);
             }
