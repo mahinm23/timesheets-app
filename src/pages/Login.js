@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import {Link, useNavigate} from 'react-router-dom';
 import register from "./Register";
-import "./LoginRegister.css";
 
 const Login = () => {
     const [name, setName] = useState('');
@@ -37,7 +36,7 @@ const Login = () => {
                 } else if (result.role === 'Finance') {
                     navigate('/finance-dashboard');
                 } else if (result.role === 'Executive'){
-                    navigate('/executive-dashboard');
+                    navigate('/Executive-dashboard');
                 }
             } else {
                 setMessage(result.message);
