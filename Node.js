@@ -64,6 +64,7 @@ app.post('/login', async (req, res) => {
                     success: true,
                     message: 'login successful',
                     role: user.role,
+                    employeeId: user.employeeId,
                 });
             } else {
                 return res.status(400).json({ success: false, message: 'name or password error' });
@@ -73,6 +74,32 @@ app.post('/login', async (req, res) => {
         res.status(500).json({ success: false, message: 'server error' });
     }
 });
+
+app.post('/submit-timesheet', async (req, res) => {
+    const { employeeId, periodStart, periodEnd, status } = req.body;
+
+    if (!employeeId || !periodStart || !periodEnd || !status) {
+        return res.status(400).json({ success: false, message: 'all arguments can not be null' });
+    }
+
+    try {
+        const query = 'INSERT INTO Timesheet (employeeId, periodStart, periodEnd, status) VALUES (?, ?, ?, ?)';
+        const submittedTime = new Date().toISOString();
+
+        db.query(query, [employeeId, periodStart, periodEnd, status], (err, result) => {
+            if (err) {
+                console.error('fail to insert to database:', err);
+                return res.status(500).json({ success: false, message: 'fail to submit, try again later' });
+            }
+
+            res.status(201).json({ success: true, message: 'submit successful' });
+        });
+    } catch (error) {
+        console.error('error during submit:', error);
+        res.status(500).json({ success: false, message: 'server error' });
+    }
+});
+
 
 
 app.listen(port, () => {
