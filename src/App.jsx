@@ -10,6 +10,8 @@ import ConsultantDashboard from './pages/consultant-dashboard';
 import ManagerDashboard from './pages/manager-dashboard';
 import ExecutiveDashboard from './pages/executive-dashboard';
 
+import 'bootstrap/dist/css/bootstrap.min.css';
+
 function App() {
   return (
     <Router>
@@ -19,7 +21,8 @@ function App() {
           <Route path="/" element={<LoginPage />} />
 
           {/* Route for Test Page, robert */}
-          <Route path="/TestPage" element={<SubmitTimesheetTest />} />
+          {/* <Route path="/TestPage" element={<SubmitTimesheetTest />} /> */}
+          {/* Commented to make the app work */}
 
           {/* Timesheet Page */}
           <Route path="/submit-timesheet" element={<SubmitTimesheet />} />
