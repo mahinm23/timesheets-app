@@ -19,7 +19,6 @@ const ConsultantDashboard = () => {
   const handleSubmit = async (event) => {
     event.preventDefault();
 
-    // 如果没有登录，不能提交
     if (!employeeId) {
       setMessage('user not login, please login');
       return;
