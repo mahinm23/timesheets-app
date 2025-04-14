@@ -1,39 +1,33 @@
 import React, { useState } from "react";
+import axios from "axios";
 
 const TimesheetForm = () => {
-  // Placeholder values for now
   const employeeId = "123456";
   const employeeName = "John Doe";
-  
-  // State for the week selection
+
   const [selectedWeek, setSelectedWeek] = useState("");
-  
-  // State for daily entries
+
   const [entries, setEntries] = useState([
-    { date: "", startTime: "", endTime: "", project: "", description: "" },
-    { date: "", startTime: "", endTime: "", project: "", description: "" },
-    { date: "", startTime: "", endTime: "", project: "", description: "" },
-    { date: "", startTime: "", endTime: "", project: "", description: "" },
-    { date: "", startTime: "", endTime: "", project: "", description: "" },
-    { date: "", startTime: "", endTime: "", project: "", description: "" },
-    { date: "", startTime: "", endTime: "", project: "", description: "" }
+    { date: "", startTime: "", endTime: "", project: "", description: "", hoursWorked: 0 },
+    { date: "", startTime: "", endTime: "", project: "", description: "", hoursWorked: 0 },
+    { date: "", startTime: "", endTime: "", project: "", description: "", hoursWorked: 0 },
+    { date: "", startTime: "", endTime: "", project: "", description: "", hoursWorked: 0 },
+    { date: "", startTime: "", endTime: "", project: "", description: "", hoursWorked: 0 },
+    { date: "", startTime: "", endTime: "", project: "", description: "", hoursWorked: 0 },
+    { date: "", startTime: "", endTime: "", project: "", description: "", hoursWorked: 0 }
   ]);
-  
-  // Calculate total hours for the week
+
   const calculateTotalHours = () => {
-    // This is a placeholder - you'd implement actual calculation logic
-    return "40.00";
+    return entries.reduce((total, entry) => total + parseFloat(entry.hoursWorked || 0), 0).toFixed(2);
   };
 
   const handleWeekChange = (e) => {
     setSelectedWeek(e.target.value);
-    
-    // When week changes, you could auto-populate dates here
-    // This is just a placeholder - you'd need proper date logic
+
     if (e.target.value) {
       const newEntries = [...entries];
       for (let i = 0; i < 7; i++) {
-        newEntries[i].date = `2023-11-${13 + i}`; // Example dates
+        newEntries[i].date = `2023-11-${13 + i}`;
       }
       setEntries(newEntries);
     }
@@ -45,16 +39,36 @@ const TimesheetForm = () => {
     setEntries(newEntries);
   };
 
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    try {
+      const payload = entries.map(entry => ({
+        employee_id: employeeId,
+        date: entry.date,
+        start_time: entry.startTime,
+        end_time: entry.endTime,
+        project: entry.project,
+        description: entry.description,
+        hours_worked: entry.hoursWorked,
+      }));
+
+      await axios.post("http://localhost:5000/api/timesheets", payload);
+      alert("Timesheet submitted successfully!");
+    } catch (error) {
+      console.error("Error submitting timesheet:", error);
+      alert("Failed to submit timesheet.");
+    }
+  };
+
   return (
-    <form className="p-4 border rounded shadow bg-white" style={{ maxWidth: "800px", margin: "0 auto" }}>
-      {/* Status placeholder */}
+    <form className="p-4 border rounded shadow bg-white" style={{ maxWidth: "800px", margin: "0 auto" }} onSubmit={handleSubmit}>
       <div className="mb-3">
         <div className="alert alert-secondary" role="alert">
           Status: Draft
         </div>
       </div>
 
-      {/* Auto-filled fields */}
       <div className="row mb-3">
         <div className='col'>
           <label className="form-label">Employee ID</label>
@@ -67,7 +81,6 @@ const TimesheetForm = () => {
         </div>
       </div>
 
-      {/* Week selection */}
       <div className="mb-3">
         <label className="form-label">Week</label>
         <input 
@@ -78,7 +91,6 @@ const TimesheetForm = () => {
         />
       </div>
 
-      {/* Weekly entries table */}
       <div className="table-responsive mb-3">
         <table className="table table-bordered">
           <thead className="table-light">
@@ -120,10 +132,10 @@ const TimesheetForm = () => {
                 </td>
                 <td>
                   <input 
-                    type="text" 
+                    type="number" 
                     className="form-control" 
-                    value="8.00" // Placeholder - would calculate from times
-                    disabled
+                    value={entry.hoursWorked}
+                    onChange={(e) => handleEntryChange(index, 'hoursWorked', e.target.value)}
                   />
                 </td>
                 <td>
@@ -148,7 +160,6 @@ const TimesheetForm = () => {
         </table>
       </div>
 
-      {/* Weekly total */}
       <div className="mb-3">
         <label className="form-label">Total Hours for Week</label>
         <input 
@@ -159,16 +170,14 @@ const TimesheetForm = () => {
         />
       </div>
 
-      {/* Notes section */}
       <div className="mb-3">
         <label className="form-label">Additional Notes (Optional)</label>
         <textarea className="form-control" rows="3"></textarea>
       </div>
 
-      {/* Action buttons */}
       <div className="d-flex justify-content-between">
         <button className="btn btn-secondary" type="button">Save as Draft</button>
-        <button className="btn btn-primary" type="button">Submit Timesheet</button>
+        <button className="btn btn-primary" type="submit">Submit Timesheet</button>
       </div>
     </form>
   );

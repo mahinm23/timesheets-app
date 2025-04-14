@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import {Link, useNavigate} from 'react-router-dom';
-import register from "./Register";
+import register from "./Register.js";
 
 const Login = () => {
     const [name, setName] = useState('');

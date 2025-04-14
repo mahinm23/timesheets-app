@@ -17,48 +17,33 @@ express_app.use(cors());
 const connection = mysql.createConnection({
     host: 'localhost',
     user: 'root',     
-    password: 'mysqlpassword',     
-    database: 'timesheet_app'  
+    password: '',     
+    database: 'timesheets_db',  
 });
 
 // Handler for Timesheet GET requests
 // Handler functions are differentiated by the URL route
-express_app.get('/api/timesheets', (req, res) => {
-    connection.query('SELECT * FROM Timesheet', (err, results) => {
-        if (err) {
-            console.error('Error fetching data:', err);
-            return res.status(500).send('Error fetching data');
-        }
-        res.json(results);
-    });
-});
-
-// Handler for Timesheet POST requests
 express_app.post('/api/timesheets', (req, res) => {
-    // Debug lines, output incoming values to console
-    let { employee_id, date, hours_worked } = req.body;
-    console.log('Incoming POST values:', req.body);
+    const timesheets = req.body;
 
-    // Timesheet table has employee_id as an int so force parse as int
-    employee_id = parseInt(employee_id);
-    hours_worked = parseFloat(hours_worked);
-
-    // SQL query
     const query = `
-        INSERT INTO Timesheet (employee_id, date, hours_worked)
-        VALUES (?, ?, ?)
+        INSERT INTO Timesheet (employee_id, date, start_time, end_time, project, description, hours_worked)
+        VALUES (?, ?, ?, ?, ?, ?, ?)
     `;
 
-    // Try query with the array of values posted
-    connection.query(query, [employee_id, date, hours_worked], (err) => {
-        if (err) {
-            // There was an error, get the error code
-            // err.code gets server errors and node.js errors
-            console.error('POST request error in db_server.js: ', err.code);
-            return -1;
-        }
-        console.log('POST request was handled successfuly in db_server.js');
-    });
+    // Insert each timesheet row
+    for (const entry of timesheets) {
+        const { employee_id, date, start_time, end_time, project, description, hours_worked } = entry;
+
+        connection.query(query, [employee_id, date, start_time, end_time, project, description, hours_worked], (err) => {
+            if (err) {
+                console.error('Error inserting timesheet:', err);
+                return res.status(500).send('Error inserting timesheet');
+            }
+        });
+    }
+
+    res.status(201).send('Timesheets submitted successfully');
 });
 
 // Connect to database using the connection object we created earlier
@@ -71,12 +56,25 @@ connection.connect( (err) => {
     // Output to console that connection was successful
     console.log('Connected to MySQL database. ');
 
+    // Use the database
+    connection.query('USE timesheets_db;', (err) => {
+        if (err) {
+            console.error('Error using database:', err);
+            return;
+        }
+        console.log('Using database timesheets_db.');
+    });
+
     // Create the Timesheets table if it doesn't exist
     const createTableQuery = `
         CREATE TABLE IF NOT EXISTS Timesheet (
         timesheet_id INT AUTO_INCREMENT PRIMARY KEY,
         employee_id INT NOT NULL,
         date DATE NOT NULL,
+        start_time TIME,
+        end_time TIME,
+        project VARCHAR(255),
+        description TEXT,
         hours_worked DECIMAL(5, 2) NOT NULL
         );
         `

@@ -1,11 +1,11 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import Login from './pages/Login';
-import Register from './pages/Register';
-import SubmitTimesheet from "./pages/SubmitTimesheet";
-import ConsultantDashboard from "./pages/ConsultantDashboard";
-import ManagerDashboard from "./pages/ManagerDashboard";
-import ExecutiveDashboard from "./pages/ExecutiveDashboard";
+import Login from './pages/Login.js';
+import Register from './pages/Register.js';
+import SubmitTimesheet from "./pages/SubmitTimesheet.js";
+import ConsultantDashboard from "./pages/ConsultantDashboard.js";
+import ManagerDashboard from "./pages/ManagerDashboard.js";
+import ExecutiveDashboard from "./pages/ExecutiveDashboard.js";
 
 function App() {
     return (
